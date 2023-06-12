@@ -3,7 +3,9 @@
     <div class="questions-ctr">
       <div class="progress">
         <div class="bar"></div>
-        <div class="status">{{ answered }} out of 3 questions answered</div>
+        <div class="status">
+          {{ answered }} out of {{ questions.length }} questions answered
+        </div>
       </div>
       <div class="single-question">
         <div class="question">{{ questions[currentQus].q }}</div>
@@ -18,7 +20,7 @@
         </div>
       </div>
     </div>
-    <template v-if="answered === 3">
+    <template v-if="answered === questions.length">
       <div class="result" v-if="trueAnswers > 2">
         <div class="title">{{ results[1].title }}</div>
         <div class="desc">{{ results[1].desc }}</div>
@@ -100,6 +102,23 @@ export default {
             },
           ],
         },
+        {
+          q: "What is 2 + 6?",
+          answers: [
+            {
+              text: "5",
+              is_correct: false,
+            },
+            {
+              text: "8",
+              is_correct: true,
+            },
+            {
+              text: "15",
+              is_correct: false,
+            },
+          ],
+        },
       ],
       results: [
         {
@@ -126,7 +145,7 @@ export default {
       if (this.currentQus + 1 < this.questions.length) {
         this.currentQus++;
       }
-      if (this.answered == 3) {
+      if (this.answered == this.questions.length) {
         this.trueAnswers = this.answers.filter((val) => val === true).length;
       }
       console.log(this.trueAnswers);
